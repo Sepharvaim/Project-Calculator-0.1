@@ -10,7 +10,9 @@
 }
 .display {
     grid-column: 1 / span 3;
-    direction: rtl;  /* cambia la direzione di scrittura */
+    text-align: right;
+    /* direction: rtl; */
+    /* unicode-bidi: embed; */
     padding: 15px;
     font-size: 20px;
 }
