@@ -14,122 +14,123 @@ function somma(a,b) {
     return a / b;
   }
   
-  let operazioni = function(x,a,b) {
-     return x(a,b)
+  let operazioni = function(operazione,a,b) {
+    if (operazione === "*") { 
+      return moltiplicazione(Number(a),Number(b));
+    } else if (operazione === "+") {
+      return somma(Number(a),Number(b));
+    } else if (operazione === "-") {
+      return sottrazione(Number(a),Number(b));
+    } else if (operazione === "/") {
+      return divisione(Number(a),Number(b));
+    } else if (operazione === "=") {
+      return 
+    }
   }
- 
+ console.log(operazioni(moltiplicazione,5,6));
   
 let displayValue = document.querySelector(".display");
 
-let = twoOperand = ["","", false, 0, undefined];
+let variabiliInUso = {
+    total: false,
+    firstNumber: null,
+    secondNumber: null,
+    operator: null, 
+}
 
 
 
 let numbers = document.querySelectorAll(".number");
 numbers.forEach(element => {
     element.addEventListener("click", () => {
-      if (twoOperand[2] === true) {
+
+
+      if (variabiliInUso.total === true) {
         displayValue.value = "";
-        twoOperand[0] = twoOperand[3];
-      } 
-      displayValue.value +=  element.innerHTML;
+        variabiliInUso.firstNumber = null;
+        displayValue.value += element.innerHTML;
+        variabiliInUso.total = false;
+
+        console.log(variabiliInUso.secondNumber, variabiliInUso.firstNumber,variabiliInUso.operator,variabiliInUso.total);  
+      } else {
+        displayValue.value += element.innerHTML;
+        console.log(variabiliInUso.firstNumber, variabiliInUso.secondNumber,variabiliInUso.operator,variabiliInUso.total);  
+      }
+    
+     
     })
 });
-let operators = document.querySelectorAll(".operator");
 
+
+let operators = document.querySelectorAll(".operator");
 operators.forEach(element => {
   element.addEventListener('click', () => {
-
     
-    if (twoOperand[4] === undefined) {
 
+    if (element.value === "del") {
+      variabiliInUso.total= false;
+      variabiliInUso.firstNumber= null;
+      variabiliInUso.secondNumber= null;
+      variabiliInUso.operator= null;
+      displayValue.value = "";
+      console.log(variabiliInUso.firstNumber, variabiliInUso.secondNumber,variabiliInUso.operator,variabiliInUso.total);  
+      return;
+    }
+    if (displayValue.value === "" ) {
+      variabiliInUso.operator = element.innerHTML;
+      return;
+      
+    };
+
+    if (element.innerHTML === "=") {
+     
+      if (variabiliInUso.firstNumber !== null && variabiliInUso.operator !== null) { 
+
+        return ugual();
+      } else { 
+        console.log(variabiliInUso.firstNumber, variabiliInUso.secondNumber,variabiliInUso.operator,variabiliInUso.total);   
+        return;
+      }
     }
 
-    
-     if (twoOperand[0] === "") {
-      twoOperand[0] = displayValue.value;
-      twoOperand[4] = element.innerHTML;
-      console.log(twoOperand)
-      displayValue.value = "";
-    } else if (twoOperand[1] === "") {
-      twoOperand[1] = displayValue.value;
-
-
-      {
+    if ( variabiliInUso.firstNumber === null ) {    
+      variabiliInUso.firstNumber = displayValue.value; 
       
-        if (element.value === "moltiplicazione") {
-          displayValue.value = operazioni(moltiplicazione, Number(twoOperand[0]), Number(twoOperand[1]));
-          twoOperand[3] = displayValue.value;
-          twoOperand[0] = "";
-          twoOperand[1] = "";
-          twoOperand[2] = true;
-    
-        } else if (element.value === "divisione") {
-    
-          displayValue.value = operazioni(divisione, Number(twoOperand[0]), Number(twoOperand[1]));
-          twoOperand[3] = displayValue.value;
-          twoOperand[0] = "";
-          twoOperand[1] = "";
-          twoOperand[2] = true;
-        } else if (element.value === "somma") {
-    
-          displayValue.value = operazioni(somma, Number(twoOperand[0]), Number(twoOperand[1]));
-          twoOperand[3] = displayValue.value;
-          twoOperand[0] = "";
-          twoOperand[1] = "";
-          twoOperand[2] = true;
-        } else {
-    
-          displayValue.value = operazioni(sottrazione, Number(twoOperand[0]), Number(twoOperand[1]));
-          twoOperand[3] = displayValue.value;
-          twoOperand[0] = "";
-          twoOperand[1] = "";
-          twoOperand[2] = true;
-        }
-         
-      }
+      displayValue.value = "";
+      variabiliInUso.operator = element.innerHTML;
+      console.log(variabiliInUso.secondNumber, variabiliInUso.firstNumber,variabiliInUso.operator,variabiliInUso.total,"first number null");
+      
+    } else if (variabiliInUso.firstNumber !== null && variabiliInUso.total === true) {
+      variabiliInUso.operator = element.innerHTML;
+      variabiliInUso.secondNumber = displayValue.value;
+      displayValue.value = "";
+      variabiliInUso.total = false;
 
-    } 
-  
- 
-     
-    
-    
+      console.log(variabiliInUso.secondNumber, variabiliInUso.firstNumber,variabiliInUso.operator,variabiliInUso.total, "first number true total true");
+      
+    } else if (variabiliInUso.total === false) {
+      ugual();
+      // variabiliInUso.operator = element.innerHTML;
+      console.log(variabiliInUso.secondNumber, variabiliInUso.firstNumber,variabiliInUso.operator,variabiliInUso.total ,"total false");
+    }
   })
 })
 
-// //  eventi che aggiungono gli operatori al numero inserito.
-// let cancella = document.querySelector("#del");
-// cancella.addEventListener("click", () => {
-//     displayValue.value = 0;
-// })
-
-// let sommando = document.querySelector("#piu");
-// sommando.addEventListener("click", () => {
-//     displayValue.value += sommando.textContent;
-//     console.log(sommando.value);
-// })
-
-// let sottraendo = document.querySelector("#meno");
-// sottraendo.addEventListener("click", () => {
-//     displayValue.value = displayValue.value + sottraendo.innerHTML;
-// })
-
-// let moltiplicando = document.querySelector("#per");
-// moltiplicando.addEventListener("click", () => {
-//     displayValue.value = displayValue.value + moltiplicando.innerHTML;
-// })
-
-// let dividendo = document.querySelector("#diviso");
-// dividendo.addEventListener("click", () => {
-//     displayValue.value = displayValue.value + dividendo.innerHTML;
-// })
 
 
 
 
 
-// let uguale = document.querySelector("#uguale");
-// uguale.addEventListener("click", () => {
-    
-// })
+function ugual() {
+ 
+  variabiliInUso.secondNumber = displayValue.value;
+  displayValue.value = operazioni(variabiliInUso.operator,variabiliInUso.firstNumber,variabiliInUso.secondNumber);
+  variabiliInUso.firstNumber = displayValue.value;
+  variabiliInUso.total = true;
+  variabiliInUso.secondNumber = null;
+  variabiliInUso.operator = null;
+  console.log(variabiliInUso.firstNumber, variabiliInUso.secondNumber,variabiliInUso.operator,variabiliInUso.total, "       uguale funbiotn ");  
+}
+
+
+
