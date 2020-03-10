@@ -66,6 +66,10 @@ let operators = document.querySelectorAll(".operator");
 operators.forEach(element => {
   element.addEventListener('click', () => {
     
+   
+
+    
+
 
     if (element.value === "del") {
       variabiliInUso.total= false;
@@ -74,6 +78,7 @@ operators.forEach(element => {
       variabiliInUso.operator= null;
       displayValue.value = "";
       console.log(variabiliInUso.firstNumber, variabiliInUso.secondNumber,variabiliInUso.operator,variabiliInUso.total);  
+      
       return;
     }
     if (displayValue.value === "" ) {
@@ -102,6 +107,7 @@ operators.forEach(element => {
       
     } else if (variabiliInUso.firstNumber !== null && variabiliInUso.total === true) {
       variabiliInUso.operator = element.innerHTML;
+      
       variabiliInUso.secondNumber = displayValue.value;
       displayValue.value = "";
       variabiliInUso.total = false;
@@ -110,8 +116,7 @@ operators.forEach(element => {
       
     } else if (variabiliInUso.total === false) {
       ugual();
-      // variabiliInUso.operator = element.innerHTML;
-      console.log(variabiliInUso.secondNumber, variabiliInUso.firstNumber,variabiliInUso.operator,variabiliInUso.total ,"total false");
+      
     }
   })
 })
@@ -124,13 +129,35 @@ operators.forEach(element => {
 function ugual() {
  
   variabiliInUso.secondNumber = displayValue.value;
-  displayValue.value = operazioni(variabiliInUso.operator,variabiliInUso.firstNumber,variabiliInUso.secondNumber);
+  displayValue.value = containDot();
   variabiliInUso.firstNumber = displayValue.value;
   variabiliInUso.total = true;
   variabiliInUso.secondNumber = null;
   variabiliInUso.operator = null;
+  
   console.log(variabiliInUso.firstNumber, variabiliInUso.secondNumber,variabiliInUso.operator,variabiliInUso.total, "       uguale funbiotn ");  
 }
+
+
+function containDot() {
+   
+  let  totale = operazioni(variabiliInUso.operator, variabiliInUso.firstNumber, variabiliInUso.secondNumber);
+  
+  let contain = totale.toString();
+  console.log(contain);
+  let containn = contain.search(/\./);
+  
+  console.log(containn);
+  if (containn === -1) {
+    return totale;
+
+  } else {
+    return totale.toFixed(2);
+  }
+}
+
+
+
 
 
 
